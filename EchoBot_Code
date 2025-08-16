@@ -1,0 +1,31 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class robospeaker {
+    public static void main(String[] args) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String text = "";
+
+        System.out.println("Welcome to Robo Speaker!");
+        try {
+            while (true) {
+                System.out.print("Enter text to speak (or type 'exit' to quit): ");
+                text = reader.readLine();
+
+                if ("exit".equalsIgnoreCase(text)) {
+                    System.out.println("Exiting Robo Speaker...");
+                    break;
+                }
+
+                // Build PowerShell command to use Windows Text-to-Speech
+                String command = "PowerShell -Command \"Add-Type –AssemblyName System.Speech; " +
+                        "(New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('" + text + "');\"";
+
+                // Execute command
+                Runtime.getRuntime().exec(command);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
